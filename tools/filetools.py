@@ -44,10 +44,8 @@ class fileTools():
         print('Making a file in the current directory with the name of:')
         print(filename)
 
-        print(finaldata)
-
         file = open(filename, 'wb')
-        file.write(finaldata)
+        file.write(bytes(finaldata))
         file.close()
         
         print("")

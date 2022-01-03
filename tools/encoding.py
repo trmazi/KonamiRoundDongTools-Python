@@ -19,13 +19,13 @@ class securityEncoding():
             tmp[i] = (input[i] - 0x20) & 0x3F
 
         # Start the funky shit
-        out[0] = (tmp[0] >> 0) | (tmp[1] << 6)
-        out[1] = (tmp[1] >> 2) | (tmp[2] << 4)
-        out[2] = (tmp[2] >> 4) | (tmp[3] << 2)
+        out[0] = ((tmp[0] >> 0) | (tmp[1] << 6)) & 0xFF
+        out[1] = ((tmp[1] >> 2) | (tmp[2] << 4)) & 0xFF
+        out[2] = ((tmp[2] >> 4) | (tmp[3] << 2)) & 0xFF
 
-        out[3] = (tmp[4] >> 0) | (tmp[5] << 6)
-        out[4] = (tmp[5] >> 2) | (tmp[6] << 4)
-        out[5] = (tmp[6] >> 4) | (tmp[7] << 2)
+        out[3] = ((tmp[4] >> 0) | (tmp[5] << 6)) & 0xFF
+        out[4] = ((tmp[5] >> 2) | (tmp[6] << 4)) & 0xFF
+        out[5] = ((tmp[6] >> 4) | (tmp[7] << 2)) & 0xFF
 
         return out
 
@@ -73,5 +73,5 @@ class securityEncoding():
         output = [0]*6
         for i in range(6):
             output[i] = buffer[i+12] ^ buffer[i+6] ^ buffer[i]
-        
+
         return output

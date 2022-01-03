@@ -48,7 +48,7 @@ class CompileDong():
         pcbid_reversed = []
 
         # Init sign_key_temp with the sign key so we can sign the mcode
-        keyasbytes = bytes(key, encoding=('utf-8'))
+        keyasbytes = key.encode('utf-8')
         for index, item in enumerate(sign_key_temp):
             sign_key_temp[index] = item ^ keyasbytes[index]
 
@@ -58,7 +58,7 @@ class CompileDong():
             mcodestr = mcodestr+code
 
         # Convert the mcode into a byte array
-        mcodebit = bytes(mcodestr, encoding=('utf-8'))
+        mcodebit = mcodestr.encode('utf-8')
 
         # Sign the mcode
         for index, item in enumerate(sign_key_temp):
