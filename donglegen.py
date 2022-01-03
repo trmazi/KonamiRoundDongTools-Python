@@ -61,6 +61,10 @@ if verifyprompt == 'No':
 elif verifyprompt == 'Yes':
     print('')
     print("OK, let's do it!")
+else:
+    print('')
+    print('Please fix your input and try again.')
+    sys.exit(0)
 
 # Let's actually start making the dongle!
 

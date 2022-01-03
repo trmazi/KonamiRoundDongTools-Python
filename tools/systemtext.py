@@ -24,6 +24,13 @@ class generateSystemPrints():
             'U':'United States'
         }
 
-        print('Producing a ' + types.get(dongtype) + " " + games.get(game) + " dongle, for the " + regions.get(region) + " region.")
+        if game == 'ddr':
+            versions = {
+                '1':'SuperNova',
+                '2':'SuperNova2',
+                '3':'DDR_X'
+            }
+
+        print('Producing a ' + types.get(dongtype) + " " + games.get(game) + " "+ versions.get(version)+ " dongle, for the " + regions.get(region) + " region.")
         print("The PCBID given was "+pcbid)
         print("")
