@@ -29,9 +29,9 @@ class mcodeTools():
 
         # Here, we get the weird unknown value
         if game == staticValues.game_ddr and version == 1:
-            unknownval = staticValues.mcode_unknown_q
+            unknownval = staticValues.mcode_unknown_k
         elif game == staticValues.game_ddr and version == 2:
-            unknownval = staticValues.mcode_unknown_q
+            unknownval = staticValues.mcode_unknown_k
         elif game == staticValues.game_ddr and version == 3:
             unknownval = staticValues.mcode_unknown_q
         else:
