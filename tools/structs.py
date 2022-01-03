@@ -71,6 +71,26 @@ class staticValues():
     mcode_rev_b = 'B'
     mcode_rev_c = 'C'
 
+    # security scramble table
+    scramble_table = [
+        0x0C,
+        0x02,
+        0x0F,
+        0x01,
+        0x07,
+        0x09,
+        0x04,
+        0x0A,
+        0x00,
+        0x0E,
+        0x03,
+        0x0D,
+        0x0B,
+        0x05,
+        0x08,
+        0x06
+    ]
+
 class dataStructs():
     '''
     Tools for finding proper data values for generating dongles
@@ -111,7 +131,7 @@ class dataStructs():
             else: return 1
 
         if checktype == 5: # checking for PCBID
-            if len(userdata) != 20:
+            if len(userdata) != 8:
                 return 0
             else: return 1
 

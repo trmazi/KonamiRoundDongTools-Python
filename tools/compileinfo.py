@@ -1,4 +1,6 @@
 from tools.structs import staticValues
+from tools.encoding import securityEncoding
+import crc8
 
 class CompileDong():
     '''
@@ -40,21 +42,80 @@ class CompileDong():
         - mcode (game specific)
         - pcbid
         '''
-        # Start with an empty array
+        # Values
+        sign_key_temp = [0]*8
+        pcbid_temp = [0]*8
+        pcbid_reversed = []
+
+        # Init sign_key_temp with the sign key so we can sign the mcode
+        keyasbytes = bytes(key, encoding=('utf-8'))
+        for index, item in enumerate(sign_key_temp):
+            sign_key_temp[index] = item ^ keyasbytes[index]
+
+        # Convert the mcode into a string so we can sign it
+        mcodestr = ""
+        for code in mcode:
+            mcodestr = mcodestr+code
+
+        # Convert the mcode into a byte array
+        mcodebit = bytes(mcodestr, encoding=('utf-8'))
+
+        # Sign the mcode
+        for index, item in enumerate(sign_key_temp):
+            sign_key_temp[index] = item ^ mcodebit[index]
+
+        # Pack the sign key
+        packedsignkey = securityEncoding.encode_8_to_6(sign_key_temp)
+
+        # Encode the given PCBID into binary data
+        pcbid_encode = bytes(pcbid, encoding=('utf-8'))
+
+        # Reverse the PCBID
+        for index, item in enumerate(pcbid_temp):
+            pcbid_temp[index] = item ^ pcbid_encode[index]
+        for i in reversed(pcbid_temp):
+            pcbid_reversed.append(i)
+
+        # Pack the mcode
+        packed_payload = securityEncoding.encode_8_to_6(mcodebit)
+        
+        # Generate the signature
+        signature = securityEncoding.create_signature(pcbid_reversed, packedsignkey)
+
+        ## Now that we have compiled all of the data, we should go ahead and populate
+        ## an array with it, and send it off.
+        
+        # Generate an array
         blackdong = []
 
-        # Write the dongle type
-        blackdong.append(staticValues.key_type_black)
+        # Append the reversed PCBID
+        for i in pcbid_reversed:
+            blackdong.append(i)
 
-        # Write the signing key
-        blackdong.append(key)
+        # Append the signature
+        for i in signature:
+            blackdong.append(i)
 
-        # Write the mcode
-        for code in mcode:
-            blackdong.append(code)
-        
-        # Write the PCBID
-        blackdong.append(pcbid)
+        # Append the payload
+        for i in packed_payload:
+            blackdong.append(i)
+
+        # Lastly, we need the CRC of the data. We do this by 
+        # converting to str, then using crc8. We will
+        # append it AFTER the 19 blanks.
+        datastring = ""
+        for i in blackdong:
+            datastring = datastring+(str(i))
+        calccrc = crc8.crc8(datastring.encode('utf-8'))
+        calccrc = calccrc.digest()
+
+        # Append 19 empty spaces
+        for i in range(19):
+            blackdong.append(0x00)
+
+        # Lastly, we need to append the CRC
+        for byte in calccrc:
+            blackdong.append(byte)
 
         # Send it back to who asked for it
         return blackdong

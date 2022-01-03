@@ -1,10 +1,10 @@
-import os
 import sys
 
 from tools.structs import staticValues, dataStructs
 from tools.compileinfo import CompileDong
 from tools.mcodetools import mcodeTools
 from tools.systemtext import generateSystemPrints
+from tools.filetools import fileTools
 
 # This tools should be used to
 # generate dongle .bin files for 
@@ -43,7 +43,7 @@ checks = {
     2:'Invalid game. Refer to the readme.',
     3:'Invalid version. Version must be a NUMBER! Refer to the readme.', # Not actually being used atm :kek:
     4:'Invalid region. Refer to the readme.',
-    5:'Invalid PCBID. PCBID must be 20 characters long.',
+    5:'Invalid PCBID. PCBID must be 8 characters long.',
 }
 for chk in range(1, 6):
     check = dataStructs.checkUserInput(chk, sys.argv[chk])
@@ -96,4 +96,8 @@ elif dongtype == staticValues.key_type_black: # compile a black dongle
 
     mcode = mcodeTools.makeMcode(sys.argv[2], version, sys.argv[4])
     compileddong = CompileDong.makeBlackDong(key, mcode, sys.argv[5])
-    print(compileddong)
+    
+# Now that we have a dongle made, we need to write it to a file.
+# The file will be stored from where the user wrote the command.
+
+fileTools.makeFile(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], compileddong)
