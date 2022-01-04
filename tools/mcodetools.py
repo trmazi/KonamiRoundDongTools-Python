@@ -28,11 +28,19 @@ class mcodeTools():
         # we have the correct game. If not, nothing will work!
 
         # Here, we get the weird unknown value
-        if game == staticValues.game_ddr and version == 1:
-            unknownval = staticValues.mcode_unknown_k
-        elif game == staticValues.game_ddr and version == 2:
+        if game == staticValues.game_ddr and version <= 2:
             unknownval = staticValues.mcode_unknown_k
         elif game == staticValues.game_ddr and version == 3:
+            unknownval = staticValues.mcode_unknown_q
+        elif game == staticValues.game_gf and version <= 3:
+            unknownval = staticValues.mcode_unknown_k
+        elif game == staticValues.game_dm and version <= 3:
+            unknownval = staticValues.mcode_unknown_k
+        elif game == staticValues.game_gf and version >= 4:
+            unknownval = staticValues.mcode_unknown_q
+        elif game == staticValues.game_dm and version >= 4:
+            unknownval = staticValues.mcode_unknown_q
+        elif game == staticValues.game_jb:
             unknownval = staticValues.mcode_unknown_q
         else:
             raise Exception("Something went wrong trying to get the mcode's 2nd value!")
