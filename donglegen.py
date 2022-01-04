@@ -51,8 +51,16 @@ for chk in range(1, 6):
         print(checks.get(chk))
         sys.exit(0)
 
+# Set the user input variables
+# https://iidxfan.xyz/argv.png
+in_dongletype = sys.argv[1]
+in_game = sys.argv[2]
+in_version = sys.argv[3]
+in_region = sys.argv[4]
+in_pcbid = sys.argv[5]
+
 # do a quick user verification
-generateSystemPrints.printStartingText(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+generateSystemPrints.printStartingText(in_dongletype, in_game, in_version, in_region, in_pcbid)
 verifyprompt = input('Does this look correct? Please type Yes or No. ')
 if verifyprompt == 'No':
     print('')
@@ -81,35 +89,35 @@ else:
 # 6: Verify the file with some more checks
 # 7: Profit.
 
-dongtype = dataStructs.getDongleType(sys.argv[1])
-version = int(sys.argv[3])
+dongtype = dataStructs.getDongleType(in_dongletype)
+version = int(in_version)
 
 if dongtype == staticValues.key_type_white: # compile a white dongle
-    mcode = mcodeTools.makeMcode(sys.argv[2], version, sys.argv[4])
-    compileddong = CompileDong.makeWhiteDong(sys.argv[5], mcode)
+    mcode = mcodeTools.makeMcode(in_game, version, in_region)
+    compileddong = CompileDong.makeWhiteDong(in_pcbid, mcode)
 
 elif dongtype == staticValues.key_type_black: # compile a black dongle
-    if sys.argv[2] == staticValues.game_ddr and version <= 2:
+    if in_game == staticValues.game_ddr and version <= 2:
         key = dataStructs.getSigningKey(2)
-    elif sys.argv[2] == staticValues.game_ddr and version == 3:
+    elif in_game == staticValues.game_ddr and version == 3:
         key = dataStructs.getSigningKey(3)
-    elif sys.argv[2] == staticValues.game_gf and version <= 3:
+    elif in_game == staticValues.game_gf and version <= 3:
         key = dataStructs.getSigningKey(2)
-    elif sys.argv[2] == staticValues.game_dm and version <= 3:
+    elif in_game == staticValues.game_dm and version <= 3:
         key = dataStructs.getSigningKey(2)
-    elif sys.argv[2] == staticValues.game_gf and version >= 4:
+    elif in_game == staticValues.game_gf and version >= 4:
         key = dataStructs.getSigningKey(3)
-    elif sys.argv[2] == staticValues.game_dm and version >= 4:
+    elif in_game == staticValues.game_dm and version >= 4:
         key = dataStructs.getSigningKey(3)
-    elif sys.argv[2] == staticValues.game_jb:
+    elif in_game == staticValues.game_jb:
         key = dataStructs.getSigningKey(3)
     else:
         raise Exception('Failed getting the signing key!')
 
-    mcode = mcodeTools.makeMcode(sys.argv[2], version, sys.argv[4])
-    compileddong = CompileDong.makeBlackDong(key, mcode, sys.argv[5])
+    mcode = mcodeTools.makeMcode(in_game, version, in_region)
+    compileddong = CompileDong.makeBlackDong(key, mcode, in_pcbid)
     
 # Now that we have a dongle made, we need to write it to a file.
 # The file will be stored from where the user wrote the command.
 
-fileTools.makeFile(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], compileddong)
+fileTools.makeFile(in_dongletype, in_game, in_version, in_region, in_pcbid, compileddong)
