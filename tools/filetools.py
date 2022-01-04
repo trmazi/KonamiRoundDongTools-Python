@@ -23,13 +23,13 @@ class fileTools():
             'A':'Asia',
             'J':'Japan',
             'K':'Korea',
-            'U':'United States'
+            'U':'United_States'
         }
 
         if game == 'ddr':
             versions = {
-                '1':'SuperNova',
-                '2':'SuperNova2',
+                '1':'SuperNOVA',
+                '2':'SuperNOVA2',
                 '3':'DDR_X'
             }
 
