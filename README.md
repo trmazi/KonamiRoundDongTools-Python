@@ -23,7 +23,7 @@ Here are the usable versions:
 > - `1`: SuperNOVA1
 > - `2`: SuperNOVA2
 > - `3`: DDR X
-(I'll add the other games once they're fully working)
+- (I'll add the other games once they're fully working)
 
 ### Regions:
 Here are the usable regions:
