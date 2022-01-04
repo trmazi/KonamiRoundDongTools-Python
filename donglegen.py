@@ -61,12 +61,12 @@ in_pcbid = sys.argv[5]
 
 # do a quick user verification
 generateSystemPrints.printStartingText(in_dongletype, in_game, in_version, in_region, in_pcbid)
-verifyprompt = input('Does this look correct? Please type Yes or No. ')
-if verifyprompt == 'No':
+verifyprompt = input('Does this look correct? Please type (Y)es or (N)o. ').lower()
+if verifyprompt == 'n' or verifyprompt == 'no':
     print('')
     print('Please fix your input and try again.')
     exit()
-elif verifyprompt == 'Yes':
+elif verifyprompt == 'y' or verifyprompt == 'yes':
     print('')
     print("OK, let's do it!")
 else:
