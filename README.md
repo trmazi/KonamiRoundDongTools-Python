@@ -2,7 +2,7 @@
  Tools to generate bin files for round konami dongs. 
  
  ## Current status
- Currently, the program is tested working on DDR SuperNOVA 1 and 2, MS and JP.
+ Currently, the program is tested working on DDR SuperNOVA 1 and 2 MS.
  All other games are untested, but DDR X will soon be tested.
 
 ## How to use
