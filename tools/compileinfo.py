@@ -20,7 +20,6 @@ class CompileDong():
         # Values
         sign_key_temp = [0]*8
         pcbid_temp = [0]*8
-        pcbid_reversed = []
 
         # Init sign_key_temp with the sign key
         keyasbytes = staticValues.security_key_white.encode('utf-8')
@@ -36,8 +35,6 @@ class CompileDong():
         # Reverse the PCBID
         for index, item in enumerate(pcbid_temp):
             pcbid_temp[index] = item ^ pcbid_encode[index]
-        for i in reversed(pcbid_temp):
-            pcbid_reversed.append(i)
 
         # Pack the mcode
         mcodestr = ""
@@ -46,7 +43,7 @@ class CompileDong():
         packed_payload = securityEncoding.encode_8_to_6(mcodestr.encode('utf-8'))
         
         # Generate the signature
-        signature = securityEncoding.create_signature(pcbid_reversed, packedsignkey)
+        signature = securityEncoding.create_signature(pcbid_temp, packedsignkey)
 
         ## Now that we have compiled all of the data, we should go ahead and populate
         ## an array with it, and send it off.
@@ -55,7 +52,7 @@ class CompileDong():
         whitedong = []
 
         # Append the reversed PCBID
-        for i in pcbid_reversed:
+        for i in pcbid_temp[::-1]:
             whitedong.append(i)
 
         # Append the signature
@@ -131,7 +128,7 @@ class CompileDong():
         packed_payload = securityEncoding.encode_8_to_6(mcodebit)
         
         # Generate the signature
-        signature = securityEncoding.create_signature(pcbid_temp[::-1], packedsignkey)
+        signature = securityEncoding.create_signature(pcbid_temp, packedsignkey)
 
         ## Now that we have compiled all of the data, we should go ahead and populate
         ## an array with it, and send it off.

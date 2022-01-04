@@ -31,7 +31,7 @@ class securityEncoding():
 
     def create_signature(pcbid:list, packed_key:list):
         '''
-        Creates a signature for the dongle using the reversed 
+        Creates a signature for the dongle using the
         PCBID and the packed key.
         '''
         # Create an empty data array
