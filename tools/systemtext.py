@@ -28,7 +28,7 @@ class generateSystemPrints():
             versions = {
                 '1':'SuperNova',
                 '2':'SuperNova2',
-                '3':'DDR_X'
+                '3':'DDR X'
             }
         elif game == 'dm' or game == 'gf':
             versions = {

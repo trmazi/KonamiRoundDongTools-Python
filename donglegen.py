@@ -36,7 +36,7 @@ if len(sys.argv) != 6:
     print("Valid games are ddr, dm, gf, and jb.")
     print("Valid versions can be found in the readme.md file")
     print("Valid regions are A, J, K, and U")
-    sys.exit(0)
+    exit()
 
 checks = {
     1:'Invalid dongle type. Refer to the readme.',
@@ -49,7 +49,7 @@ for chk in range(1, 6):
     check = dataStructs.checkUserInput(chk, sys.argv[chk])
     if check == 0:
         print(checks.get(chk))
-        sys.exit(0)
+        exit()
 
 # Set the user input variables
 # https://iidxfan.xyz/argv.png
