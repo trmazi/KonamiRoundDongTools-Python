@@ -1,5 +1,9 @@
 # KonamiRoundDongTools-Python
  Tools to generate bin files for round konami dongs. 
+ 
+ ## Current status
+ Currently, the program is tested working on DDR SuperNOVA 1 and 2, MS and JP.
+ All other games are untested, but DDR X will soon be tested.
 
 ## How to use
 The basic usage for the program is:
@@ -13,17 +17,30 @@ The following usable dongle types are as follows:
 ### Games:
 These are the following games that can be used:
 - `ddr`: For generating a DDR dongle.
-- `dm`: For generating a Drummania dongle. #TODO
-- `gf`: For generating a GuitarFreaks dongle. #TODO
-- `jb`: For generating a Jubeat dongle. #TODO
+- `dm`: For generating a Drummania dongle. #UNTESTED
+- `gf`: For generating a GuitarFreaks dongle. #UNTESTED
+- `jb`: For generating a Jubeat dongle. #UNTESTED
 
 ### Versions:
 Here are the usable versions:
 - `ddr`:
 > - `1`: SuperNOVA1
 > - `2`: SuperNOVA2
-> - `3`: DDR X
-- (I'll add the other games once they're fully working)
+> - `3`: DDR X #UNTESTED
+- `gf` and `dm`:
+> - `1`: V
+> - `2`: V2
+> - `3`: V3
+> - `4`: V4
+> - `5`: V5
+> - `6`: V6
+> - `7`: V7
+> - `8`: V8
+- `jb`:
+> - `1`: Jubeat ORIGINAL
+> - `2`: Jubeat Ripples
+> - `3`: Jubeat Knit
+> - `4`: Jubeat Copius
 
 ### Regions:
 Here are the usable regions:
