@@ -36,7 +36,6 @@ class securityEncoding():
         '''
         # Create an empty data array
         data = []
-        md5 = [0]*16
         buffer = [0]*18
 
         # Append the pcbid
@@ -47,18 +46,8 @@ class securityEncoding():
         for i in packed_key:
             data.append(i)
 
-        # Make the data a proper string for hashlib 
-        strdata = ""
-        for i in data:
-            strdata = strdata + str(i)
-
         # Create the MD5
-        md5hash = hashlib.md5(strdata.encode('utf-8'))
-        md5hash = md5hash.digest()
-        
-        # Add it to the md5 array
-        for index, item in enumerate(md5):
-            md5[index] = item ^ md5hash[index]
+        md5 = hashlib.md5(bytes(data)).digest()
 
         # Now, we populate the buffer data and scramble the MD5
         for i in range(16):
