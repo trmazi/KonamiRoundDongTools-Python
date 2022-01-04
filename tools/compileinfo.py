@@ -1,6 +1,5 @@
 from tools.structs import staticValues
 from tools.encoding import securityEncoding
-import crc8
 
 class CompileDong():
     '''
@@ -149,11 +148,17 @@ class CompileDong():
         for i in range(19):
             blackdong.append(0x00)
 
-        # Lastly, we need the CRC of the data. We do this by 
-        # converting to str, then using crc8.
-        calccrc = crc8.crc8(bytes(blackdong[8:])).digest()
-        for byte in calccrc:
-            blackdong.append(byte)
+        def mycrc(data, init=0):
+            crc = ~init & 0xFF
+            for item in data:
+                crc ^= item & 0xFF
+                for _ in range(8):
+                    if (crc & 1):
+                        crc = ((crc >> 1) ^ 0x8C) & 0xFF
+                    else:
+                        crc = (crc >> 1) & 0xFF
+            return ~crc & 0xFF
+        blackdong.append(mycrc(blackdong[8:]))
 
         # Send it back to who asked for it
         return blackdong
