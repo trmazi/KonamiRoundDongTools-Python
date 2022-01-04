@@ -7,27 +7,81 @@ class CompileDong():
     Method for compiling all dongle information into formats that we want
     so that we can write the whole thing to a file.
     '''
-    def makeWhiteDong(pcbid:str):
+    def makeWhiteDong(pcbid:str, mcode:str):
         '''
         Function for generating a white eAmusement dongle.
-        Doesn't need an mcode.
 
         Here's the white dongle structure:
         - type (1)
         - signing key
+        - mcode
         - pcbid
         '''
-        # Create an empty dongle
+        # Values
+        sign_key_temp = [0]*8
+        pcbid_temp = [0]*8
+        pcbid_reversed = []
+
+        # Init sign_key_temp with the sign key
+        keyasbytes = staticValues.security_key_white.encode('utf-8')
+        for index, item in enumerate(sign_key_temp):
+            sign_key_temp[index] = item ^ keyasbytes[index]
+
+        # Pack the sign key
+        packedsignkey = securityEncoding.encode_8_to_6(sign_key_temp)
+
+        # Encode the given PCBID into binary data
+        pcbid_encode = bytes(pcbid, encoding=('utf-8'))
+
+        # Reverse the PCBID
+        for index, item in enumerate(pcbid_temp):
+            pcbid_temp[index] = item ^ pcbid_encode[index]
+        for i in reversed(pcbid_temp):
+            pcbid_reversed.append(i)
+
+        # Pack the mcode
+        mcodestr = ""
+        for byte in mcode:
+            mcodestr = mcodestr+byte
+        packed_payload = securityEncoding.encode_8_to_6(mcodestr.encode('utf-8'))
+        
+        # Generate the signature
+        signature = securityEncoding.create_signature(pcbid_reversed, packedsignkey)
+
+        ## Now that we have compiled all of the data, we should go ahead and populate
+        ## an array with it, and send it off.
+        
+        # Generate an array
         whitedong = []
 
-        # Append the type
-        whitedong.append(staticValues.key_type_white)
+        # Append the reversed PCBID
+        for i in pcbid_reversed:
+            whitedong.append(i)
 
-        # Add the signing key
-        whitedong.append(staticValues.security_key_white)
+        # Append the signature
+        for i in signature:
+            whitedong.append(i)
 
-        # Add the PCBID
-        whitedong.append(pcbid)
+        # Append the payload
+        for i in packed_payload:
+            whitedong.append(i)
+
+        # Lastly, we need the CRC of the data. We do this by 
+        # converting to str, then using crc8. We will
+        # append it AFTER the 19 blanks.
+        datastring = ""
+        for i in whitedong:
+            datastring = datastring+(str(i))
+        calccrc = crc8.crc8(datastring.encode('utf-8'))
+        calccrc = calccrc.digest()
+
+        # Append 19 empty spaces
+        for i in range(19):
+            whitedong.append(0x00)
+
+        # Lastly, we need to append the CRC
+        for byte in calccrc:
+            whitedong.append(byte)
 
         # Send it back to who asked for it
         return whitedong

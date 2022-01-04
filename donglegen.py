@@ -85,8 +85,8 @@ dongtype = dataStructs.getDongleType(sys.argv[1])
 version = int(sys.argv[3])
 
 if dongtype == staticValues.key_type_white: # compile a white dongle
-    compileddong = CompileDong.makeWhiteDong(sys.argv[5])
-    print(compileddong)
+    mcode = mcodeTools.makeMcode(sys.argv[2], version, sys.argv[4])
+    compileddong = CompileDong.makeWhiteDong(sys.argv[5], mcode)
 
 elif dongtype == staticValues.key_type_black: # compile a black dongle
     if sys.argv[2] == staticValues.game_ddr and version == 1:
