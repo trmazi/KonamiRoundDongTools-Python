@@ -28,8 +28,8 @@ Here are the usable versions:
 ### Regions:
 Here are the usable regions:
 - `A`: Asian region.
-- `J`: Japan region.
-- `K`: Korea region.
+- `J`: Japanese region.
+- `K`: Korean region.
 - `U`: United States region.
 
 ### PCBIDs:
