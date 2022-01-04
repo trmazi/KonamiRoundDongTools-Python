@@ -63,20 +63,17 @@ class CompileDong():
         for i in packed_payload:
             whitedong.append(i)
 
+        # Append 19 empty spaces
+        for i in range(19):
+            whitedong.append(0x00)
+
         # Lastly, we need the CRC of the data. We do this by 
-        # converting to str, then using crc8. We will
-        # append it AFTER the 19 blanks.
+        # converting to str, then using crc8.
         datastring = ""
         for i in whitedong:
             datastring = datastring+(str(i))
         calccrc = crc8.crc8(datastring.encode('utf-8'))
         calccrc = calccrc.digest()
-
-        # Append 19 empty spaces
-        for i in range(19):
-            whitedong.append(0x00)
-
-        # Lastly, we need to append the CRC
         for byte in calccrc:
             whitedong.append(byte)
 
@@ -148,20 +145,17 @@ class CompileDong():
         for i in packed_payload:
             blackdong.append(i)
 
+        # Append 19 empty spaces
+        for i in range(19):
+            blackdong.append(0x00)
+
         # Lastly, we need the CRC of the data. We do this by 
-        # converting to str, then using crc8. We will
-        # append it AFTER the 19 blanks.
+        # converting to str, then using crc8.
         datastring = ""
         for i in blackdong:
             datastring = datastring+(str(i))
         calccrc = crc8.crc8(datastring.encode('utf-8'))
         calccrc = calccrc.digest()
-
-        # Append 19 empty spaces
-        for i in range(19):
-            blackdong.append(0x00)
-
-        # Lastly, we need to append the CRC
         for byte in calccrc:
             blackdong.append(byte)
 
