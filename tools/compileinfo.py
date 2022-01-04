@@ -151,11 +151,7 @@ class CompileDong():
 
         # Lastly, we need the CRC of the data. We do this by 
         # converting to str, then using crc8.
-        datastring = ""
-        for i in blackdong:
-            datastring = datastring+(str(i))
-        calccrc = crc8.crc8(datastring.encode('utf-8'))
-        calccrc = calccrc.digest()
+        calccrc = crc8.crc8(bytes(blackdong[8:])).digest()
         for byte in calccrc:
             blackdong.append(byte)
 
