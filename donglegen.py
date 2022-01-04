@@ -89,11 +89,19 @@ if dongtype == staticValues.key_type_white: # compile a white dongle
     compileddong = CompileDong.makeWhiteDong(sys.argv[5], mcode)
 
 elif dongtype == staticValues.key_type_black: # compile a black dongle
-    if sys.argv[2] == staticValues.game_ddr and version == 1:
-        key = dataStructs.getSigningKey(2)
-    elif sys.argv[2] == staticValues.game_ddr and version == 2:
+    if sys.argv[2] == staticValues.game_ddr and version <= 2:
         key = dataStructs.getSigningKey(2)
     elif sys.argv[2] == staticValues.game_ddr and version == 3:
+        key = dataStructs.getSigningKey(3)
+    elif sys.argv[2] == staticValues.game_gf and version <= 3:
+        key = dataStructs.getSigningKey(2)
+    elif sys.argv[2] == staticValues.game_dm and version <= 3:
+        key = dataStructs.getSigningKey(2)
+    elif sys.argv[2] == staticValues.game_gf and version >= 4:
+        key = dataStructs.getSigningKey(3)
+    elif sys.argv[2] == staticValues.game_dm and version >= 4:
+        key = dataStructs.getSigningKey(3)
+    elif sys.argv[2] == staticValues.game_jb:
         key = dataStructs.getSigningKey(3)
     else:
         raise Exception('Failed getting the signing key!')
