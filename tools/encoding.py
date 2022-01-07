@@ -32,7 +32,7 @@ class securityEncoding():
     def create_signature(pcbid:list, packed_key:list):
         '''
         Creates a signature for the dongle using the
-        PCBID and the packed key.
+        reversed PCBID and the packed key.
         '''
         # Create an empty data array
         data = []
@@ -64,3 +64,14 @@ class securityEncoding():
             output[i] = buffer[i+12] ^ buffer[i+6] ^ buffer[i]
 
         return output
+
+    def get_CRC8(data, init=0):
+        crc = ~init & 0xFF
+        for item in data:
+            crc ^= item & 0xFF
+            for _ in range(8):
+                if (crc & 1):
+                    crc = ((crc >> 1) ^ 0x8C) & 0xFF
+                else:
+                    crc = (crc >> 1) & 0xFF
+        return ~crc & 0xFF

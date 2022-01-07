@@ -42,7 +42,7 @@ class CompileDong():
         packed_payload = securityEncoding.encode_8_to_6(mcodestr.encode('utf-8'))
         
         # Generate the signature
-        signature = securityEncoding.create_signature(pcbid_temp, packedsignkey)
+        signature = securityEncoding.create_signature(pcbid_temp[::-1], packedsignkey)
 
         ## Now that we have compiled all of the data, we should go ahead and populate
         ## an array with it, and send it off.
@@ -50,8 +50,8 @@ class CompileDong():
         # Generate an array
         whitedong = []
 
-        # Append the reversed PCBID
-        for i in pcbid_temp[::-1]:
+        # Append the PCBID
+        for i in pcbid_temp:
             whitedong.append(i)
 
         # Append the signature
@@ -66,15 +66,8 @@ class CompileDong():
         for i in range(19):
             whitedong.append(0x00)
 
-        # Lastly, we need the CRC of the data. We do this by 
-        # converting to str, then using crc8.
-        datastring = ""
-        for i in whitedong:
-            datastring = datastring+(str(i))
-        calccrc = crc8.crc8(datastring.encode('utf-8'))
-        calccrc = calccrc.digest()
-        for byte in calccrc:
-            whitedong.append(byte)
+        # Lastly, we need the CRC of the data.
+        whitedong.append(securityEncoding.get_CRC8(whitedong[8:]))
 
         # Send it back to who asked for it
         return whitedong
@@ -124,7 +117,7 @@ class CompileDong():
         packed_payload = securityEncoding.encode_8_to_6(mcodebit)
         
         # Generate the signature
-        signature = securityEncoding.create_signature(pcbid_temp, packedsignkey)
+        signature = securityEncoding.create_signature(pcbid_temp[::-1], packedsignkey)
 
         ## Now that we have compiled all of the data, we should go ahead and populate
         ## an array with it, and send it off.
@@ -132,8 +125,8 @@ class CompileDong():
         # Generate an array
         blackdong = []
 
-        # Append the reversed PCBID
-        for i in pcbid_temp[::-1]:
+        # Append the PCBID
+        for i in pcbid_temp:
             blackdong.append(i)
 
         # Append the signature
@@ -148,17 +141,8 @@ class CompileDong():
         for i in range(19):
             blackdong.append(0x00)
 
-        def mycrc(data, init=0):
-            crc = ~init & 0xFF
-            for item in data:
-                crc ^= item & 0xFF
-                for _ in range(8):
-                    if (crc & 1):
-                        crc = ((crc >> 1) ^ 0x8C) & 0xFF
-                    else:
-                        crc = (crc >> 1) & 0xFF
-            return ~crc & 0xFF
-        blackdong.append(mycrc(blackdong[8:]))
+        # Lastly, add the CRC.
+        blackdong.append(securityEncoding.get_CRC8(blackdong[8:]))
 
         # Send it back to who asked for it
         return blackdong
