@@ -63,8 +63,8 @@ class mcodeTools():
             staticValues.game_dm:staticValues.mcode_cab_b,
             staticValues.game_gf:staticValues.mcode_cab_b,
         }
-        if game in plsbeB:
-            cabinet = staticValues.mcode_cab_b
+        #if game in plsbeB: BROKEN FOR NOW
+        #    cabinet = staticValues.mcode_cab_b
         finalmcode.append(cabinet)
 
         # Finally, we get the revision.
